@@ -1,6 +1,6 @@
 # Neovim Config – rolasnajera
 
-Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, Telescope, nvim-tree, statusline, completion, formatting/linting, and handy keymaps.
+Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, Telescope, statusline, completion, formatting/linting, and handy keymaps.
 
 <p align="left">
   <a href="https://neovim.io/">
@@ -21,7 +21,7 @@ Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, T
 - OS: macOS
 - Neovim: 0.11+ recommended
 - Plugin manager: lazy.nvim
-- Colorscheme: nightfly
+- Colorscheme: default (configure your preferred theme)
 
 ## Table of contents
 - Overview
@@ -77,7 +77,7 @@ Useful commands:
 - lua/rolasnajera/lazy.lua – lazy.nvim bootstrap and specs import
 - lua/rolasnajera/plugins – plugin specs and configs
   - lsp/ – LSP, Mason, and tooling configuration
-  - other feature-specific files (telescope.lua, nvim-tree.lua, etc.)
+  - other feature-specific files (telescope.lua, bufferline.lua, etc.)
 - lazy-lock.json – locked plugin versions for reproducibility
 
 ## Screenshot
@@ -107,16 +107,13 @@ Core/dev experience
 Navigation and search
 - nvim-telescope/telescope.nvim (+ telescope-fzf-native) – fuzzy find files, grep, etc.
 - ThePrimeagen/harpoon (harpoon2) – quick file lists and jumps
-- nvim-tree/nvim-tree.lua – file explorer
 
 Editing
 - hrsh7th/nvim-cmp (+ cmp-buffer, cmp-path, LuaSnip, cmp_luasnip, friendly-snippets, lspkind.nvim) – autocompletion
 - windwp/nvim-autopairs – auto pairs with cmp integration
 - numToStr/Comment.nvim (+ ts-context-commentstring) – smarter comments
-- mbbill/undotree – persistent undo tree
 
 UI
-- bluz71/vim-nightfly-colors – colorscheme
 - nvim-lualine/lualine.nvim – statusline with lazy update indicator
 - akinsho/bufferline.nvim – tab-like buffers
 - stevearc/dressing.nvim – improved input/select UI
@@ -126,7 +123,7 @@ LSP and tools
 - williamboman/mason.nvim – tool installer
 - williamboman/mason-lspconfig.nvim – LSP integration
 - neovim/nvim-lspconfig – LSP client configs
-- nvimtools/none-ls.nvim (+ mason-null-ls.nvim) – formatters/linters via null-ls
+- nvimtools/none-ls.nvim – formatters/linters via null-ls (install tools with Mason)
 
 See lazy-lock.json for pinned versions.
 
@@ -145,20 +142,12 @@ Telescope
 - <leader>fs – live grep in cwd
 - <leader>fc – grep string under cursor
 
-nvim-tree
-- <leader>ee – toggle
-- <leader>ef – toggle on current file
-- <leader>ec – collapse
-- <leader>er – refresh
-
 Harpoon
 - <leader>a – add file
 - Ctrl-e – toggle quick menu
 - <leader>hm / Ctrl-t / Ctrl-n / Ctrl-s – jump to items 1..4
 - <leader>hp / <leader>hn – previous/next
 
-UndoTree
-- <leader><F5> – toggle Undotree
 
 LSP (set on attach)
 - gR – references (Telescope)
@@ -192,14 +181,14 @@ Features:
 - Autotag for HTML/TSX
 
 ## Formatting and linting (null-ls/none-ls)
-Installed via mason-null-ls and configured in none-ls:
+Install formatters/linters via :Mason and configure them through none-ls:
 - Formatters: prettier (incl. svelte), stylua, isort, black
 - Linters: eslint_d (auto-activated if .eslintrc.{js,cjs} is present), pylint
 
 Format on save: enabled via null-ls for buffers whose attached client supports formatting (prefers null-ls over LSP server formatting).
 
 ## UI/UX niceties
-- Colorscheme: nightfly (termguicolors enabled)
+- Use any colorscheme you prefer (termguicolors enabled by default)
 - Lualine: custom theme with Lazy update indicator
 - Bufferline: tabs mode with slant separators
 - Dressing: improved prompts/selects
@@ -215,8 +204,8 @@ Format on save: enabled via null-ls for buffers whose attached client supports f
    :TSUpdate
 5) Verify LSP status for a filetype (open a file, then):
    :LspInfo
-6) Try Telescope and nvim-tree:
-   <leader>ff, <leader>fs, <leader>ee
+6) Try Telescope:
+   <leader>ff, <leader>fs
 
 Notes
 - ESLint linter via eslint_d activates only if .eslintrc.js or .eslintrc.cjs exists at project root.
@@ -239,7 +228,6 @@ Notes
 
 ## Credits
 - lazy.nvim by folke
-- nightfly by bluz71
 - telescope by nvim-telescope
 - lspconfig, mason by neovim/williamboman
 - null-ls/none-ls by nvimtools
