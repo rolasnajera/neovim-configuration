@@ -230,6 +230,7 @@ Notes
 - For plugin issues, open :Lazy and check the “Health” tab or run :checkhealth.
 
 ## Contributing
+- Review the [Repository Guidelines](AGENTS.md) for structure, commands, and review expectations
 - Fork and create a feature branch
 - Keep changes small and focused (one plugin/feature per PR when possible)
 - Follow existing Lua style and patterns in lua/rolasnajera/

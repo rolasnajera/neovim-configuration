@@ -11,11 +11,17 @@ return {
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
     local keymap = vim.keymap
 
-    local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
+    -- Configure diagnostic signs (Neovim 0.11+ API)
+    vim.diagnostic.config({
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = " ",
+          [vim.diagnostic.severity.WARN]  = " ",
+          [vim.diagnostic.severity.HINT]  = "󰠠 ",
+          [vim.diagnostic.severity.INFO]  = " ",
+        },
+      },
+    })
 
     local on_attach = function(client, bufnr)
       local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -44,6 +50,7 @@ return {
     end
 
     local capabilities = cmp_nvim_lsp.default_capabilities()
+    capabilities.offsetEncoding = { "utf-16" }
 
     -- Ensure servers are installed and set default handler
     mason_lspconfig.setup({
