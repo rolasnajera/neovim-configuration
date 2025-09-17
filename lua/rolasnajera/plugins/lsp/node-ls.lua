@@ -51,6 +51,9 @@ return {
         }),
       },
       -- configure format on save
+      on_init = function(client, _)
+        client.offset_encoding = "utf-16"
+      end,
       on_attach = function(current_client, bufnr)
         if current_client.supports_method("textDocument/formatting") then
           vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
