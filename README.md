@@ -177,7 +177,7 @@ Git (gitsigns)
 - <leader>hs / <leader>hr – stage or reset hunk (visual mode supported)
 - <leader>hS / <leader>hR – stage or reset buffer
 - <leader>hu – undo stage
-- <leader>hp – preview hunk
+- <leader>hv – preview hunk
 - <leader>hb – show detailed blame for line
 - <leader>hB – toggle inline blame
 - <leader>hd / <leader>hD – diff against index or HEAD~
