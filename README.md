@@ -6,7 +6,7 @@ Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, T
   <a href="https://neovim.io/">
     <img alt="Neovim" src="https://img.shields.io/badge/Neovim-0.11%2B-57A143?logo=neovim&logoColor=white" />
   </a>
-  <img alt="OS" src="https://img.shields.io/badge/macOS-Sonoma-blue?logo=apple&logoColor=white" />
+  <img alt="OS" src="https://img.shields.io/badge/macOS-Tahoe-blue?logo=apple&logoColor=white" />
   <a href="#license">
     <img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
@@ -21,7 +21,7 @@ Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, T
 - OS: macOS
 - Neovim: 0.11+ recommended
 - Plugin manager: lazy.nvim
-- Colorscheme: default (configure your preferred theme)
+- Colorscheme: tokyonight (storm variant)
 
 ## Table of contents
 - Overview
@@ -104,20 +104,36 @@ Core/dev experience
 - nvim-lua/plenary.nvim – Lua utilities
 - folke/lazy.nvim – plugin manager
 
+Discoverability
+- folke/which-key.nvim – pop-up hints for leader mappings
+
 Navigation and search
 - nvim-telescope/telescope.nvim (+ telescope-fzf-native) – fuzzy find files, grep, etc.
+- debugloop/telescope-undo.nvim – undo history presented in Telescope
 - ThePrimeagen/harpoon (harpoon2) – quick file lists and jumps
 
 Editing
 - hrsh7th/nvim-cmp (+ cmp-buffer, cmp-path, LuaSnip, cmp_luasnip, friendly-snippets, lspkind.nvim) – autocompletion
 - windwp/nvim-autopairs – auto pairs with cmp integration
 - numToStr/Comment.nvim (+ ts-context-commentstring) – smarter comments
+- lukas-reineke/indent-blankline.nvim (ibl) – tree-style indent guides
 
 UI
+- folke/tokyonight.nvim – default colorscheme (storm)
 - nvim-lualine/lualine.nvim – statusline with lazy update indicator
 - akinsho/bufferline.nvim – tab-like buffers
 - stevearc/dressing.nvim – improved input/select UI
 - nvim-tree/nvim-web-devicons – file icons
+
+File tree
+- nvim-neo-tree/neo-tree.nvim – source-aware file explorer
+
+Git
+- lewis6991/gitsigns.nvim – git hunk signs, staging, and blame helpers
+
+Diagnostics
+- folke/trouble.nvim – diagnostics, references, and quickfix viewer
+- folke/todo-comments.nvim – highlight and list TODO/FIX/FIXME comments
 
 LSP and tools
 - williamboman/mason.nvim – tool installer
@@ -136,11 +152,15 @@ General
 - Window splits: <leader>sv (vertical), <leader>sh (horizontal), <leader>se (equalize), <leader>sx (close)
 - Tabs: <leader>to (new), <leader>tx (close), <leader>tn (next), <leader>tp (prev), <leader>tf (current buffer -> new tab)
 
+Which-key
+- <leader>? – show available keymaps
+
 Telescope
 - <leader>ff – find files
 - <leader>fr – recent files
 - <leader>fs – live grep in cwd
 - <leader>fc – grep string under cursor
+- <leader>fu – undo history
 
 Harpoon
 - <leader>a – add file
@@ -148,6 +168,32 @@ Harpoon
 - <leader>hm / Ctrl-t / Ctrl-n / Ctrl-s – jump to items 1..4
 - <leader>hp / <leader>hn – previous/next
 
+File explorer (Neo-tree)
+- <leader>ee – toggle file tree
+- <leader>ef – reveal current file
+
+Git (gitsigns)
+- ]h / [h – next/previous hunk
+- <leader>hs / <leader>hr – stage or reset hunk (visual mode supported)
+- <leader>hS / <leader>hR – stage or reset buffer
+- <leader>hu – undo stage
+- <leader>hp – preview hunk
+- <leader>hb – show detailed blame for line
+- <leader>hB – toggle inline blame
+- <leader>hd / <leader>hD – diff against index or HEAD~
+- ih – select hunk text object (operator-pending/visual)
+
+Diagnostics (Trouble)
+- <leader>xx – toggle diagnostics list
+- <leader>xw – workspace diagnostics
+- <leader>xd – document diagnostics
+- <leader>xr – LSP references
+- <leader>xq – quickfix list
+
+Todo comments
+- ]t / [t – next/previous TODO comment
+- <leader>xt – TODO items in Trouble
+- <leader>xT – TODO items in Telescope
 
 LSP (set on attach)
 - gR – references (Telescope)
@@ -188,7 +234,7 @@ Install formatters/linters via :Mason and configure them through none-ls:
 Format on save: enabled via null-ls for buffers whose attached client supports formatting (prefers null-ls over LSP server formatting).
 
 ## UI/UX niceties
-- Use any colorscheme you prefer (termguicolors enabled by default)
+- Tokyonight (storm) loads by default; override with :colorscheme if desired (termguicolors enabled)
 - Lualine: custom theme with Lazy update indicator
 - Bufferline: tabs mode with slant separators
 - Dressing: improved prompts/selects
