@@ -1,41 +1,43 @@
 return {
   "williamboman/mason-lspconfig.nvim",
   dependencies = {
+    "williamboman/mason.nvim",
     "neovim/nvim-lspconfig",
     "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
   },
   config = function()
-    local lspconfig = require("lspconfig")
     local mason_lspconfig = require("mason-lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
     local keymap = vim.keymap
 
-    -- Configure diagnostic signs (Neovim 0.11+ API)
     vim.diagnostic.config({
       signs = {
         text = {
           [vim.diagnostic.severity.ERROR] = " ",
-          [vim.diagnostic.severity.WARN]  = " ",
-          [vim.diagnostic.severity.HINT]  = "󰠠 ",
-          [vim.diagnostic.severity.INFO]  = " ",
+          [vim.diagnostic.severity.WARN] = " ",
+          [vim.diagnostic.severity.HINT] = "󰠠 ",
+          [vim.diagnostic.severity.INFO] = " ",
         },
       },
     })
 
+    local function map(mode, lhs, rhs, desc, bufnr)
+      keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc, noremap = true, silent = true })
+    end
+
     local on_attach = function(client, bufnr)
-      local opts = { noremap = true, silent = true, buffer = bufnr }
-      keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { desc = "Show LSP references", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "Show LSP definitions", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { desc = "Show LSP implementations", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "Show LSP type definitions", noremap = true, silent = true, buffer = bufnr })
-      keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "See available code actions", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Smart rename", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show documentation for what is under cursor", noremap = true, silent = true, buffer = bufnr })
-      keymap.set("n", "<leader>rs", ":LspRestart<CR>", { desc = "Restart LSP", noremap = true, silent = true, buffer = bufnr })
+      map("n", "gR", "<cmd>Telescope lsp_references<CR>", "Show LSP references", bufnr)
+      map("n", "gD", vim.lsp.buf.declaration, "Go to declaration", bufnr)
+      map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", "Show LSP definitions", bufnr)
+      map("n", "gi", "<cmd>Telescope lsp_implementations<CR>", "Show LSP implementations", bufnr)
+      map("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", "Show LSP type definitions", bufnr)
+      map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions", bufnr)
+      map("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename", bufnr)
+      map("n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic", bufnr)
+      map("n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic", bufnr)
+      map("n", "K", vim.lsp.buf.hover, "Show documentation under cursor", bufnr)
+      map("n", "<leader>rs", ":LspRestart<CR>", "Restart LSP", bufnr)
 
       if client.name == "svelte" then
         vim.api.nvim_create_autocmd("BufWritePost", {
@@ -50,34 +52,30 @@ return {
     local capabilities = cmp_nvim_lsp.default_capabilities()
     capabilities.offsetEncoding = { "utf-16" }
 
-    -- Ensure servers are installed and set default handler
-    mason_lspconfig.setup({
-      ensure_installed = {
-        "ansiblels",
-        "bashls",
-        "clangd",
-        "cssls",
-        "dockerls",
-        "emmet_ls",
-        "eslint",
-        "html",
-        "jdtls",
-        "jsonls",
-        "lua_ls",
-        "graphql",
-        "prismals",
-        "pyright",
-        "kotlin_language_server",
-        "marksman",
-        "mdx_analyzer",
-        "sqlls",
-        "ts_ls",
-        "tailwindcss",
-      },
-      automatic_installation = true,
-    })
+    local ensure_servers = {
+      "ansiblels",
+      "bashls",
+      "clangd",
+      "cssls",
+      "dockerls",
+      "emmet_ls",
+      "eslint",
+      "html",
+      "jdtls",
+      "jsonls",
+      "lua_ls",
+      "graphql",
+      "prismals",
+      "pyright",
+      "kotlin_language_server",
+      "marksman",
+      "mdx_analyzer",
+      "sqlls",
+      "ts_ls",
+      "tailwindcss",
+    }
 
-    local servers = {
+    local server_overrides = {
       lua_ls = {
         settings = {
           Lua = {
@@ -99,28 +97,25 @@ return {
       },
     }
 
-    -- Prefer setup_handlers when available; fallback for older versions
-    if type(mason_lspconfig.setup_handlers) == "function" then
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          local server_config = servers[server_name] or {}
-          local final_config = vim.tbl_deep_extend("force", {
-            on_attach = on_attach,
-            capabilities = capabilities,
-          }, server_config)
-          lspconfig[server_name].setup(final_config)
-        end,
-      })
-    else
-      -- Fallback path: iterate installed servers
-      for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
-        local server_config = servers[server_name] or {}
-        local final_config = vim.tbl_deep_extend("force", {
-          on_attach = on_attach,
-          capabilities = capabilities,
-        }, server_config)
-        lspconfig[server_name].setup(final_config)
+    local base_config = {
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }
+
+    for _, server in ipairs(ensure_servers) do
+      local overrides = server_overrides[server] or {}
+      local config = vim.tbl_deep_extend("force", {}, base_config, overrides)
+      local ok, err = pcall(vim.lsp.config, server, config)
+      if not ok then
+        vim.notify(string.format("lspconfig: skipping %s (%s)", server, err), vim.log.levels.WARN)
       end
     end
+
+    mason_lspconfig.setup({
+      ensure_installed = ensure_servers,
+      automatic_enable = {
+        exclude = { "stylua" }, -- stylua CLI lacks --lsp; avoid auto-enabling its pseudo-LSP
+      },
+    })
   end,
 }
