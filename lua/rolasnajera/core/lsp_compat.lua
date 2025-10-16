@@ -16,6 +16,19 @@ if vim.fn.has("nvim-0.11") == 1 then
     return vim.api.nvim_get_current_buf()
   end
 
+  local function normalize_bufnr(bufnr)
+    if type(bufnr) ~= "number" or bufnr == 0 then
+      return vim.api.nvim_get_current_buf()
+    end
+
+    local ok_valid, is_valid = pcall(vim.api.nvim_buf_is_valid, bufnr)
+    if ok_valid and is_valid then
+      return bufnr
+    end
+
+    return vim.api.nvim_get_current_buf()
+  end
+
   local function prefer_utf16(clients)
     for _, client in ipairs(clients) do
       if client.offset_encoding == "utf-16" then
@@ -25,7 +38,7 @@ if vim.fn.has("nvim-0.11") == 1 then
   end
 
   local function infer_encoding(bufnr)
-    bufnr = vim._resolve_bufnr(bufnr)
+    bufnr = normalize_bufnr(bufnr)
     local clients = vim.lsp.get_clients({ bufnr = bufnr })
     if not clients or vim.tbl_isempty(clients) then
       return "utf-16"
