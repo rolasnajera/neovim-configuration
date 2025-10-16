@@ -1,8 +1,6 @@
 return {
   "williamboman/mason.nvim",
   dependencies = {
-    -- Keep mason-lspconfig installed, but do not configure it here to avoid require loops
-    "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
