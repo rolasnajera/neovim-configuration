@@ -81,6 +81,14 @@ if vim.fn.has("nvim-0.11") == 1 then
     end
     return make_given_range_params(start_pos, end_pos, bufnr, position_encoding)
   end
+
+  local show_document = util.show_document
+  if type(show_document) == "function" then
+    -- Override deprecated util.jump_to_location to reuse the newer helper without warning spam.
+    util.jump_to_location = function(location, position_encoding, reuse_win)
+      return show_document(location, position_encoding, { reuse_win = reuse_win, focus = true })
+    end
+  end
 end
 
 return M
