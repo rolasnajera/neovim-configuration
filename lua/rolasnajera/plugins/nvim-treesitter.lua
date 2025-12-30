@@ -30,6 +30,7 @@ return {
           "jsdoc",
           "python",
           "rust",
+          "toml",
           "sql",
           "typescript",
           "tsx",

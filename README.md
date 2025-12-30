@@ -135,6 +135,11 @@ Diagnostics
 - folke/trouble.nvim – diagnostics, references, and quickfix viewer
 - folke/todo-comments.nvim – highlight and list TODO/FIX/FIXME comments
 
+Rust development
+- mrcjkb/rustaceanvim – rust-analyzer integration with enhanced features
+- rust-lang/rust.vim – Rust file detection and syntax
+- saecki/crates.nvim – Cargo.toml dependency management and completion
+
 LSP and tools
 - williamboman/mason.nvim – tool installer
 - williamboman/mason-lspconfig.nvim – LSP integration
@@ -209,17 +214,35 @@ LSP (set on attach)
 - K – hover
 - <leader>rs – restart LSP
 
+Rust-specific (rustaceanvim)
+- <leader>rr – show runnables
+- <leader>rD – show debuggables
+- <leader>re – expand macro
+- <leader>rh – hover actions
+
+Cargo.toml (crates.nvim)
+- <leader>cv – show crate versions
+- <leader>cd – show dependencies
+- <leader>cu – update crate under cursor
+- <leader>cU – upgrade crate under cursor
+- <leader>ca – update all crates
+
 ## LSP and tools
 Mason installs and manages language servers. Configured servers include:
 - ansiblels, bashls, clangd, cssls, dockerls, emmet_ls, eslint, html, jdtls, jsonls, lua_ls, graphql, prismals, pyright, kotlin_language_server, marksman, mdx_analyzer, sqlls, ts_ls, tailwindcss
+
+Rust support:
+- rust-analyzer via rustaceanvim (version ^4) with clippy checks, inlay hints, and cargo integration
+- Cargo.toml completion and management via crates.nvim
 
 Capabilities are extended via nvim-cmp; custom per-server settings include:
 - lua_ls – recognizes vim globals and adds runtime libraries
 - graphql – adds additional filetypes (svelte, react, etc.)
 - emmet_ls – configured for common web filetypes
+- rust-analyzer – clippy as default checker, all cargo features enabled, call snippet completion
 
 ## Treesitter
-Parsers ensured for: json, java, javascript, jsdoc, python, rust, sql, typescript, tsx, yaml, html, xml, css, prisma, markdown, markdown_inline, graphql, git_rebase, bash, lua, vim, dockerfile, gitignore, query
+Parsers ensured for: json, java, javascript, jsdoc, python, rust, toml, sql, typescript, tsx, yaml, html, xml, css, prisma, markdown, markdown_inline, graphql, git_rebase, bash, lua, vim, dockerfile, gitignore, query
 
 Features:
 - Syntax highlight and indentation

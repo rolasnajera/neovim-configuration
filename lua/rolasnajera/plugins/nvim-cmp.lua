@@ -52,5 +52,16 @@ return {
         }),
       },
     })
+
+    cmp.setup.filetype("toml", {
+      sources = cmp.config.sources({
+        { name = "crates" },
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+      }, {
+        { name = "buffer" },
+        { name = "path" },
+      }),
+    })
   end,
 }
