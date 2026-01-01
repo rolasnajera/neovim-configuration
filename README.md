@@ -32,6 +32,7 @@ Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, T
 - Screenshot
 - Bootstrap (one‑liner)
 - Plugins
+- GitHub Copilot
 - Keymaps
 - LSP and tools
 - Treesitter
@@ -147,6 +148,21 @@ LSP and tools
 - nvimtools/none-ls.nvim – formatters/linters via null-ls (install tools with Mason)
 
 See lazy-lock.json for pinned versions.
+
+## GitHub Copilot
+This config includes AI code suggestions via `zbirenbaum/copilot.lua`.
+
+- Load behavior: enabled on first Insert mode entry (`event = "InsertEnter"`).
+- Suggestions: auto-triggered while typing. Press `Ctrl-l` to accept the current inline suggestion.
+- Panel: open with `Ctrl-c` then `p` to view multiple suggestions and history.
+  - Navigate: `[[` (prev) / `]]` (next)
+  - Accept: `Enter`
+  - Refresh: `gr`
+- Filetypes: enabled globally with explicit entries for yaml, markdown, gitcommit, python, and lua. To disable for a filetype, edit `lua/rolasnajera/plugins/copilot.lua` and set `filetypes["<type>"] = false`.
+
+Notes
+- Requires an active GitHub Copilot subscription on your account.
+- If suggestions don’t appear, open `:Lazy` to confirm the plugin is installed and check for any startup errors.
 
 ## Keymaps
 Leader key: Space
