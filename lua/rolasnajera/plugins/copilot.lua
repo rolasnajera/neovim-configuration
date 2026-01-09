@@ -2,6 +2,10 @@
 return {
   "zbirenbaum/copilot.lua",
   event = "InsertEnter",
+  keys = {
+    { "<leader>gd", "<cmd>Copilot disable<CR>", desc = "Disable Copilot" },
+    { "<leader>ge", "<cmd>Copilot enable<CR>", desc = "Enable Copilot" },
+  },
   config = function()
     require("copilot").setup({
       suggestion = {

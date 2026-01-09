@@ -158,6 +158,7 @@ This config includes AI code suggestions via `zbirenbaum/copilot.lua`.
   - Navigate: `[[` (prev) / `]]` (next)
   - Accept: `Enter`
   - Refresh: `gr`
+- Toggle: `<leader>gd` to disable, `<leader>ge` to enable.
 - Filetypes: enabled globally with explicit entries for yaml, markdown, gitcommit, python, and lua. To disable for a filetype, edit `lua/rolasnajera/plugins/copilot.lua` and set `filetypes["<type>"] = false`.
 
 Notes
