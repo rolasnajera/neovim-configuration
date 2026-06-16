@@ -6,7 +6,6 @@ return {
     build = ":TSUpdate",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "windwp/nvim-ts-autotag",
     },
     config = function()
       -- Configure treesitter
@@ -65,9 +64,6 @@ return {
       vim.keymap.set("x", "<bs>", function()
         require("vim.treesitter._select").select_child(vim.v.count1)
       end, { desc = "Shrink treesitter selection" })
-
-      -- Configure nvim-ts-autotag
-      require("nvim-ts-autotag").setup({})
 
       -- Enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
       require("ts_context_commentstring").setup({})

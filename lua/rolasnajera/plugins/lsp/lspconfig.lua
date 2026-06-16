@@ -67,6 +67,27 @@ return {
       emmet_ls = {
         filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "c" },
       },
+      eslint = {
+        on_attach = function(client, bufnr)
+          handlers.on_attach(client, bufnr)
+          -- Suppress the "Unable to find ESLint library" warning for projects without ESLint
+          local orig_showMessage = client.handlers["window/showMessage"]
+          client.handlers["window/showMessage"] = function(err, result, ctx, config)
+            if result and result.message and result.message:match("Unable to find ESLint library") then
+              return
+            end
+            return orig_showMessage(err, result, ctx, config)
+          end
+        end,
+        settings = {
+          eslint = {
+            useFlatConfig = true,
+            experimental = {
+              useFlatConfig = true,
+            },
+          },
+        },
+      },
     }
 
     local base_config = {
