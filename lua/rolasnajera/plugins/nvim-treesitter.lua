@@ -1,68 +1,76 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPre", "BufNewFile" },
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "windwp/nvim-ts-autotag",
     },
     config = function()
-      -- import nvim-treesitter plugin
-      local treesitter = require("nvim-treesitter.configs")
-
-      -- configure treesitter
-      treesitter.setup({ -- enable syntax highlighting
-        highlight = {
-          enable = true,
-        },
-        -- enable indentation
-        indent = { enable = true },
-        -- enable autotagging (w/ nvim-ts-autotag plugin)
-        autotag = {
-          enable = true,
-        },
-        -- ensure these language parsers are installed
-        ensure_installed = {
-          "json",
-          "java",
-          "javascript",
-          "jsdoc",
-          "python",
-          "rust",
-          "toml",
-          "sql",
-          "typescript",
-          "tsx",
-          "yaml",
-          "html",
-          "xml",
-          "css",
-          "prisma",
-          "markdown",
-          "markdown_inline",
-          "graphql",
-          "git_rebase",
-          "bash",
-          "lua",
-          "vim",
-          "dockerfile",
-          "gitignore",
-          "query",
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<C-space>",
-            node_incremental = "<C-space>",
-            scope_incremental = false,
-            node_decremental = "<bs>",
-          },
-        },
+      -- Configure treesitter
+      require("nvim-treesitter").setup({
+        install_dir = vim.fn.stdpath("data") .. "/site"
       })
 
-      -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
-      require('ts_context_commentstring').setup {}
+      -- Install parsers
+      require("nvim-treesitter").install({
+        "json",
+        "java",
+        "javascript",
+        "jsdoc",
+        "python",
+        "rust",
+        "toml",
+        "sql",
+        "typescript",
+        "tsx",
+        "yaml",
+        "html",
+        "xml",
+        "css",
+        "prisma",
+        "markdown",
+        "markdown_inline",
+        "graphql",
+        "git_rebase",
+        "bash",
+        "lua",
+        "vim",
+        "dockerfile",
+        "gitignore",
+        "query",
+      })
+
+      -- Enable highlighting
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end,
+      })
+
+      -- Enable indentation
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
+
+      -- Enable incremental selection using Neovim's built-in functions
+      vim.keymap.set({ "n", "x" }, "<C-space>", function()
+        require("vim.treesitter._select").select_parent(vim.v.count1)
+      end, { desc = "Expand treesitter selection" })
+
+      vim.keymap.set("x", "<bs>", function()
+        require("vim.treesitter._select").select_child(vim.v.count1)
+      end, { desc = "Shrink treesitter selection" })
+
+      -- Configure nvim-ts-autotag
+      require("nvim-ts-autotag").setup({})
+
+      -- Enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
+      require("ts_context_commentstring").setup({})
     end,
   },
 }
