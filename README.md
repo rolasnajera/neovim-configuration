@@ -7,6 +7,7 @@ Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, T
     <img alt="Neovim" src="https://img.shields.io/badge/Neovim-0.11%2B-57A143?logo=neovim&logoColor=white" />
   </a>
   <img alt="OS" src="https://img.shields.io/badge/macOS-Tahoe-blue?logo=apple&logoColor=white" />
+  <img alt="Linux" src="https://img.shields.io/badge/Linux-Ubuntu%20(also%20tested)-orange?logo=linux&logoColor=white" />
   <a href="#license">
     <img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
@@ -18,7 +19,7 @@ Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, T
   </a>
 </p>
 
-- OS: macOS
+- OS: macOS (primary), Ubuntu/Linux (tested)
 - Neovim: 0.11+ recommended
 - Plugin manager: lazy.nvim
 - Colorscheme: tokyonight (storm variant)
@@ -51,7 +52,14 @@ This is my personal Neovim configuration. It uses lazy.nvim to declaratively man
 - Neovim 0.11 or newer
 - Git
 - A Nerd Font (for icons). Example: install Meslo Nerd Font
-- True color terminal (e.g., iTerm2) with termguicolors enabled
+- True color terminal (e.g., iTerm2 on macOS, any modern terminal on Linux) with termguicolors enabled
+- `tree-sitter-cli` (0.26.1 or later) — required by nvim-treesitter v1.0 to compile parsers
+  - macOS: `brew install tree-sitter`
+  - Linux: `npm install -g tree-sitter-cli` (or download from [GitHub releases](https://github.com/tree-sitter/tree-sitter/releases))
+- Linux extra: `python3-venv` (required for Mason to install Python tools like `isort`, `pylint`, `black`)
+  ```bash
+  sudo apt update && sudo apt install -y python3-pip python3-venv
+  ```
 
 ## Install
 Clone this repository into your Neovim config directory.
@@ -262,9 +270,8 @@ Capabilities are extended via nvim-cmp; custom per-server settings include:
 Parsers ensured for: json, java, javascript, jsdoc, python, rust, toml, sql, typescript, tsx, yaml, html, xml, css, prisma, markdown, markdown_inline, graphql, git_rebase, bash, lua, vim, dockerfile, gitignore, query
 
 Features:
-- Syntax highlight and indentation
-- Incremental selection (<C-space>, <bs>)
-- Autotag for HTML/TSX
+- Syntax highlight and indentation (via nvim-treesitter v1.0+ `FileType` autocommands)
+- Autotag for HTML/TSX (via nvim-ts-autotag standalone plugin)
 
 ## Formatting and linting (null-ls/none-ls)
 Install formatters/linters via :Mason and configure them through none-ls:
@@ -299,10 +306,20 @@ Notes
   :lua vim.lsp.buf.format()
 
 ## Tips and troubleshooting
-- If icons don’t render, install a Nerd Font and configure your terminal to use it.
+- If icons don't render, install a Nerd Font and configure your terminal to use it.
 - If Treesitter highlighting looks off, run :TSUpdate.
-- If LSP doesn’t start, check :Mason to confirm the server is installed and :LspInfo for status.
-- For plugin issues, open :Lazy and check the “Health” tab or run :checkhealth.
+- If LSP doesn't start, check :Mason to confirm the server is installed and :LspInfo for status.
+- For plugin issues, open :Lazy and check the "Health" tab or run :checkhealth.
+- **Linux: Mason Python packages fail (`isort`, `pylint`, `black`)**  
+  On Debian/Ubuntu, `python3-venv` is not bundled with Python like it is on macOS. If you see `failed to install` for Python tools in Mason, install it first:
+  ```bash
+  sudo apt install -y python3-venv
+  ```
+  Then restart Neovim. Mason will retry installation on the next startup.
+- **nvim-treesitter v1.0 rewrite compatibility**  
+  This config has been updated to work with nvim-treesitter v1.0+ (the main branch rewrite). The old `nvim-treesitter.configs` module was removed. If you see `module 'nvim-treesitter.configs' not found`, make sure all nvim-treesitter-related plugins are updated to their latest versions via `:Lazy sync`.
+- **nvim-treesitter: `Query error` or `Invalid field name` when opening files**  
+  nvim-treesitter v1.0 requires `tree-sitter-cli` to compile parsers. If you see query errors when opening files (e.g., `Invalid field name "operator"`), the parsers are outdated. First install `tree-sitter-cli`, then run `:TSUpdate` (or `nvim --headless -c "TSUpdate" -c "qa"`) to rebuild all parsers.
 
 ## Contributing
 - Review the [Repository Guidelines](AGENTS.md) for structure, commands, and review expectations
