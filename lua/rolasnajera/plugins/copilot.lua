@@ -48,8 +48,20 @@ return {
         javascriptreact = true,
         css = true,
         html = true,
-        sh = true,
-        bash = true,
+        sh = function()
+          local name = vim.fs.basename(vim.api.nvim_buf_get_name(0))
+          if string.match(name, "^%.env") or string.match(name, "^%.dev%.vars") then
+            return false
+          end
+          return true
+        end,
+        bash = function()
+          local name = vim.fs.basename(vim.api.nvim_buf_get_name(0))
+          if string.match(name, "^%.env") or string.match(name, "^%.dev%.vars") then
+            return false
+          end
+          return true
+        end,
         go = true,
         c = true,
         cpp = true,
