@@ -31,7 +31,7 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+-- opt.clipboard:append("unnamedplus") -- disabled to prevent password/secrets leaking to clipboard history
 
 -- split windows
 opt.splitright = true -- split vertical window to the right
@@ -42,3 +42,7 @@ opt.swapfile = false
 
 -- scroll when reaching botton
 opt.scrolloff=8
+
+-- security: disable local configuration file execution from untrusted folders
+opt.exrc = false
+

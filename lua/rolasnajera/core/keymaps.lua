@@ -34,3 +34,10 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+
+-- Explicit system clipboard copy/paste (safer alternative to unnamedplus)
+keymap.set({"n", "v"}, "<leader>y", [["+y]], { desc = "Copy to system clipboard" })
+keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line to system clipboard" })
+keymap.set({"n", "v"}, "<leader>p", [["+p]], { desc = "Paste from system clipboard" })
+keymap.set({"n", "v"}, "<leader>P", [["+P]], { desc = "Paste from system clipboard (before)" })
+
