@@ -30,13 +30,37 @@ return {
         },
       },
       filetypes = {
-        yaml = true,
-        markdown = true,
-        gitcommit = true,
+        yaml = false,
+        markdown = false,
+        help = false,
+        gitcommit = false,
+        gitconfig = false,
+        hgcommit = false,
+        svncommit = false,
+        cvs = false,
+        ["."] = false,
         python = true,
         lua = true,
-        ["*"] = true, -- allow all others
+        rust = true,
+        javascript = true,
+        typescript = true,
+        typescriptreact = true,
+        javascriptreact = true,
+        css = true,
+        html = true,
+        sh = true,
+        bash = true,
+        go = true,
+        c = true,
+        cpp = true,
+        java = true,
+        kotlin = true,
+        sql = true,
+        ["*"] = false, -- disable all other filetypes by default
       },
     })
+
+    -- Disable Copilot by default on startup/lazy-load
+    vim.cmd("Copilot disable")
   end,
 }
