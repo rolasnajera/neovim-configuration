@@ -31,7 +31,8 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
--- opt.clipboard:append("unnamedplus") -- disabled to prevent password/secrets leaking to clipboard history
+opt.clipboard:append("unnamedplus") -- Enabled by default, managed dynamically for security
+
 
 -- split windows
 opt.splitright = true -- split vertical window to the right
