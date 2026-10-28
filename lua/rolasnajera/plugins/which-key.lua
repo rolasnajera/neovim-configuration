@@ -17,6 +17,8 @@ return {
       { "<leader>e", group = "+explorer" },
       { "<leader>d", desc = "Show line diagnostics" },
       { "<leader>D", desc = "Show buffer diagnostics" },
+      { "<leader>j", desc = "Scroll half-page down" },
+      { "<leader>k", desc = "Scroll half-page up" },
       { "<leader>?", "<cmd>WhichKey<CR>", desc = "Show available keymaps" },
     })
   end,

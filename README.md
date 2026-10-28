@@ -188,6 +188,7 @@ Leader key: Space
 General
 - <leader>nh – clear search highlights
 - <leader>+ / <leader>- – increment/decrement number
+- <leader>j / <leader>k – scroll half-page down / up (centered, Dvorak friendly)
 - Window splits: <leader>sv (vertical), <leader>sh (horizontal), <leader>se (equalize), <leader>sx (close)
 - Tabs: <leader>to (new), <leader>tx (close), <leader>tn (next), <leader>tp (prev), <leader>tf (current buffer -> new tab)
 
