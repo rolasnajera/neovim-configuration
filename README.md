@@ -35,11 +35,13 @@ Opinionated, fast Neovim setup powered by lazy.nvim. Includes LSP, Treesitter, T
 - Plugins
 - GitHub Copilot
 - Keymaps
+- Markdown and prose reading
 - LSP and tools
 - Treesitter
 - Formatting and linting
 - UI/UX niceties
 - Getting started
+- Architecture Decision Records (ADRs)
 - Tips and troubleshooting
 - Contributing
 - Credits
@@ -79,6 +81,8 @@ Useful commands:
 
 ## Project structure
 - init.lua – entrypoint that loads core and plugin setup
+- after/ftplugin – buffer-level filetype overrides (e.g., Markdown wrapping, visual navigation)
+- docs/adr – architectural decision records (ADRs)
 - lua/rolasnajera/core
   - options.lua – editor options
   - keymaps.lua – general keybindings
@@ -134,6 +138,11 @@ UI
 - stevearc/dressing.nvim – improved input/select UI
 - nvim-tree/nvim-web-devicons – file icons
 
+Markdown and focus
+- MeanderingProgrammer/render-markdown.nvim – rich in-buffer markdown rendering (headings, tables, callouts, checkboxes)
+- folke/zen-mode.nvim – distraction-free, centered reading layout on wide monitors
+- folke/twilight.nvim – dims inactive paragraphs/code blocks using Treesitter
+
 File tree
 - nvim-neo-tree/neo-tree.nvim – source-aware file explorer
 
@@ -184,6 +193,12 @@ General
 
 Which-key
 - <leader>? – show available keymaps
+
+Markdown and focus
+- <leader>zm – toggle Zen Mode (centered reading layout on wide monitors)
+- <leader>tw – toggle Twilight (dim inactive text)
+- <leader>mr – toggle inline Markdown rendering
+- j / k – navigate visual wrapped lines in Markdown (counts like `5j` preserved)
 
 Telescope
 - <leader>ff – find files
@@ -252,6 +267,14 @@ Cargo.toml (crates.nvim)
 - <leader>cU – upgrade crate under cursor
 - <leader>ca – update all crates
 
+## Markdown and prose reading
+Markdown buffers are tuned for deep reading comfort:
+- **Soft line wrapping**: Automatic `wrap` and word-boundary `linebreak` eliminate off-screen lines and horizontal scrolling.
+- **Indentation preservation**: `breakindent` ensures wrapped list items, blockquotes, and tasks retain indentation.
+- **Intuitive navigation**: `j` and `k` follow visual wrapped lines instead of jumping full logical lines, while count motions (e.g., `5j`) remain preserved.
+- **In-buffer styling**: `render-markdown.nvim` renders headers, callouts (`> [!NOTE]`), interactive checkboxes, code block banners, and tables directly in the terminal buffer (`<leader>mr` to toggle).
+- **Ultrawide monitor focus**: `zen-mode.nvim` (`<leader>zm`) constrains reading width to 100 centered columns, paired with `twilight.nvim` (`<leader>tw`) to softly dim inactive paragraphs.
+
 ## LSP and tools
 Mason installs and manages language servers. Configured servers include:
 - ansiblels, bashls, clangd, cssls, dockerls, emmet_ls, eslint, html, jdtls, jsonls, lua_ls, graphql, prismals, pyright, kotlin_language_server, marksman, mdx_analyzer, sqlls, ts_ls, tailwindcss
@@ -304,6 +327,10 @@ Notes
 - ESLint linter via eslint_d activates only if .eslintrc.js or .eslintrc.cjs exists at project root.
 - Formatting on save is handled by none-ls (null-ls). To temporarily format manually:
   :lua vim.lsp.buf.format()
+
+## Architecture Decision Records (ADRs)
+Architectural changes and tooling evaluations are documented under `docs/adr/`:
+- [ADR 0001: Markdown Readability, In-Buffer Rendering, and Zen Focus Mode](docs/adr/0001-markdown-readability-and-zen-mode.md)
 
 ## Tips and troubleshooting
 - If icons don't render, install a Nerd Font and configure your terminal to use it.
