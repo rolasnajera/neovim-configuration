@@ -12,6 +12,10 @@ local keymap = vim.keymap -- for conciseness
 -- clear search highlights
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
+-- Dvorak-friendly half-page scrolling (amplified j/k with cursor centering)
+keymap.set({ "n", "v" }, "<leader>j", "<C-d>zz", { desc = "Scroll half-page down (centered)" })
+keymap.set({ "n", "v" }, "<leader>k", "<C-u>zz", { desc = "Scroll half-page up (centered)" })
+
 -- delete single character without copying into register
 -- keymap.set("n", "x", '"_x')
 
